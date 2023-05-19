@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Disease Symptoms</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  </head>
+  <style>
+    .container {
+      margin: 7% 35%;
+      margin-left: 10%;
+    }
+    h1 {
+      padding: 21px;
+    }
+
+    #search {
+      border: solid black;
+      height: 50px;
+      width: 400px;
+    }
+    .list-group {
+      width: 400px;
+      cursor: pointer;
+      opacity: 50%;
+    }
+    .list-group:hover {
+      opacity: 100%;
+    }
+    ul {
+      background-color: lightgrey;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h1>Enter the Symptoms</h1>
+      <div class="input-box">
+        <input
+          type="text"
+          name="serch"
+          id="search"
+          placeholder="search symptoms"
+          class="form-control"
+        />
+        <ul class="list-group" id="result"></ul>
+        <select>
+          <option class="list-group" id="result01"></option>
+        </select>
+      </div>
+    </div>
+
+    <!-- <div>
+  
+    </div> -->
+
+    <script>
+      $(document).ready(function () {
+        $("#search").keyup(function () {
+          $("#result").html(" ");
+          var searchField = $("#search").val();
+          var expression = new RegExp(searchField, "i");
+          var count =0;
+          //   var array= new Array(10);
+          $.getJSON("SymptomsOutput.json", function (data) {
+            $.each(data, function (key, value) {
+                
+              if (value.name.search(expression) != -1) {
+                $("#result").append(
+                  '<li class="list-group-item" id="selector"> ' +
+                    value.name +
+                    " </li>"
+                   
+                );
+                    
+                count++;
+                
+                if (count===10) {
+                  return false;
+                }
+                
+              }
+              
+              //  
+              // array.push(value.name);
+              // console.log(array);
+              
+            });
+            $("#result").on("click", function () {
+                  var symptom = $("#selector").html();
+                  console.log(symptom);
+                });
+
+          });
+        });
+      });
+    </script>
+
+    <!-- <script>
+      $(document).ready(function () {
+        $("select").selectize({
+          sortField: "text",
+        });
+      });
+    </script> -->
+  </body>
+</html>
